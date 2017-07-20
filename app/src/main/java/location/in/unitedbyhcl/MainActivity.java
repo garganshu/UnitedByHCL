@@ -40,6 +40,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout1_CHAT()).commit();
+
     }
 
     @Override
@@ -82,13 +84,13 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_Chat) {
             // Handle the camera action
-            getFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout1_CHAT()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout1_CHAT()).commit();
             //break;
         } else if (id == R.id.nav_events) {
-            getFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout2_EventsNearBy()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout2_EventsNearBy()).commit();
             //break;
         } else if (id == R.id.nav_createevent) {
-            getFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout3_CreateEvents()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout3_CreateEvents()).commit();
             //break;
         } else if (id == R.id.nav_manage) {
 
