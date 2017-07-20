@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  * Created by Dell on 7/20/2017.
  */
 
-public class Layout2_EventsNearBy extends Fragment {
+public class Layout2_EventsNearBy extends android.support.v4.app.Fragment {
     View myview;
     @Nullable
     @Override
