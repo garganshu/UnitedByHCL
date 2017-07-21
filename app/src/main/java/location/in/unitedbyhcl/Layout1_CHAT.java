@@ -63,33 +63,7 @@ public class Layout1_CHAT extends Fragment {
 
         TabLayout tabLayout = (TabLayout) myview.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-        mFirebaseDatabase= FirebaseDatabase.getInstance();
-        mFirebasAuUth= FirebaseAuth.getInstance();
 
-        mAuthStateListener =new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    //  Toast.makeText(getActivity(), "You're now signed in. Welcome to FriendlyChat.", Toast.LENGTH_SHORT).show();
-                    onSignedInIntialise(user.getDisplayName(),user.getEmail());
-                } else {
-                    // User is signed out
-                    onSignedOutCleanup();
-                    startActivityForResult(
-                            AuthUI.getInstance()
-                                    .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)
-                                    .setProviders(
-                                            AuthUI.EMAIL_PROVIDER,
-                                            AuthUI.GOOGLE_PROVIDER)
-                                    .build(),
-                            RC_SIGN_IN);
-                }
-            }
-        };
         return myview;
     }
     public static class PlaceholderFragment extends Fragment {
@@ -115,80 +89,7 @@ public class Layout1_CHAT extends Fragment {
             return rootView;
         }
         }
-        @Override
-        public void onActivityResult(int requestCode, int resultCode, Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (requestCode == RC_SIGN_IN) {
-                if (resultCode == RESULT_OK) {
-                    // Sign-in succeeded, set up the UI
-                    Toast.makeText(getActivity(), "Signed in!", Toast.LENGTH_SHORT).show();
 
-                } else if (resultCode == RESULT_CANCELED) {
-                    // Sign in was canceled by the user, finish the activity
-                    Toast.makeText(getActivity(), "Sign in canceled", Toast.LENGTH_SHORT).show();
-                    getActivity().finish();
-                }
-            }
-        }
-        @Override
-        public void onResume() {
-            super.onResume();
-            if (mAuthStateListener != null) {
-                mFirebasAuUth.addAuthStateListener(mAuthStateListener);
-            }
-        }
-
-        @Override
-        public void onPause() {
-            super.onPause();
-            if (mAuthStateListener != null) {
-                mFirebasAuUth.removeAuthStateListener(mAuthStateListener);
-            }
-            detachDatabaseListener();
-        }
-        private void onSignedInIntialise(String username,String userid) {
-            mUsername = username;
-            //name= username;
-            //id=userid;
-
-            if (mChildEventListener == null) {
-                mChildEventListener = new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                    FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
-//                    mMessageAdapter.add(friendlyMessage);
-
-                    }
-
-                    @Override
-                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-
-                    @Override
-                    public void onChildRemoved(DataSnapshot dataSnapshot) {}
-
-                    @Override
-                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {}
-                };
-                mMessagesDatabaseReference.addChildEventListener(mChildEventListener);
-            }
-        }
-        private void onSignedOutCleanup(){
-            mUsername= ANONYMOUS;
-
-            detachDatabaseListener();
-        }
-        private void detachDatabaseListener(){
-            if(mChildEventListener!=null) {
-                mMessagesDatabaseReference.removeEventListener(mChildEventListener);
-                mChildEventListener=null;
-            }
-            else{
-                Toast.makeText(getContext(),"erorrrrrr",Toast.LENGTH_SHORT).show();
-            }
-        }
 
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -234,46 +135,5 @@ public class Layout1_CHAT extends Fragment {
             return null;
         }
     }
-    //AMAN Code
-//
-//    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-//
-//        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-//        mFirebasAuUth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<AuthResult> task) {
-//                if (task.isSuccessful()) {
-//                    // Sign in success, update UI with the signed-in user's information
-//                    Log.d("TAG", "signInWithCredential:success");
-//                    FirebaseUser user = mFirebasAuUth.getCurrentUser();
-//                    mUsername = user.getUid();
-//                    String userName;
-//                    String emailRetreive = user.getEmail();
-//                    userName = usernameExractor(emailRetreive);
-//                    mDatabase.child("Users").child(uid).child("UserName").setValue(userName);
-//                    //updateUI(user);
-//                } else {
-//                    // If sign in fails, display a message to the user.
-//                    Log.w("TAG", "signInWithCredential:failure", task.getException());
-//                    Toast.makeText(getActivity(), "Authentication failed.", Toast.LENGTH_SHORT).show();
-//                    //updateUI(null);
-//                }
-//            }
-//
-//        });
-//    }
-//    private String usernameExractor(String emailRetreive) {
-//
-//        String ch="";
-//        int i;
-//        for (i=0;i<emailRetreive.length();i++){
-//            if(emailRetreive.charAt(i)!='@'){
-//                ch = ch + emailRetreive.charAt(i);
-//
-//            }else
-//                break;
-//        }
-//        return  ch;
-//    }
 
 }
