@@ -22,14 +22,19 @@
                 android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <!--Icon of floating widget -->
+                <ImageView
+                    android:id="@+id/new_btn"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginRight="40dp"
+                    android:src="@drawable/bell"
+                    tools:ignore="ContentDescription"/>
                 <ImageView
                     android:id="@+id/logo"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:layout_marginTop="8dp"
-                    android:src="@mipmap/ic_launcher_round"
+                    android:src="@drawable/logo"
                     tools:ignore="ContentDescription"/>
 
                 <!--Close button-->
