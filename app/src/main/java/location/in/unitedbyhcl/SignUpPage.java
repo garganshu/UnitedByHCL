@@ -32,7 +32,8 @@ public class SignUpPage extends AppCompatActivity {
 
     private Button b1,b2;
     private EditText e1,e3,e4;
-    private String uid;
+    static String uid;
+    static String musername, muserid;
     private final static  int RC_SIGN_IN = 3;
 
     private ProgressDialog mRegProgress;
@@ -162,7 +163,8 @@ public class SignUpPage extends AppCompatActivity {
 
                             FirebaseUser user = mAuth.getCurrentUser();
                             uid = user.getUid();
-
+                            musername = user.getDisplayName();
+                            muserid=user.getEmail();
                             mDatabase.child("Users").child(uid).child("UserName").setValue(userName);
 
                             Toast.makeText(SignUpPage.this,"user is registered", Toast.LENGTH_SHORT).show();
