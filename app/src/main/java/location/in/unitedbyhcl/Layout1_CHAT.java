@@ -2,6 +2,7 @@ package location.in.unitedbyhcl;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -76,6 +77,7 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     private static final String TAG = "MainActivity";
     public String name;
     public String id;
+    Boolean flag ;
 
     private FirebaseStorage mFirebaseStorage;
     private StorageReference mChatPhotosStorageReference;
@@ -241,6 +243,7 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
             aboveTenkms();
             String str2 = Float.toString(distance);
             geodistance.setText("Distance :"+str2);
+            sharedata();
 
 
         } catch (IOException e) {
@@ -271,9 +274,11 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     //code to convert latitude and longitude into the distance..........
     //begins here.
     public void aboveTenkms() {
+        flag = false;
         distance = distFrom(lat1,lon1,latitude,longitude);
 
         if (distance >= 5000.00) {
+            flag = true;
            // mUserLcationDatabaseReference.push().setValue(loc2);
             mDatabase.child("users").child("usercurrentlocation").child("latitude").setValue(latitude);
             mDatabase.child("users").child("usercurrentlocation").child("longitude").setValue(longitude);
@@ -299,6 +304,15 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
         float dist = (float) (earthRadius * c);
 
         return dist;
+    }
+
+    //function to set shared preference (flag value only)
+    public void sharedata(){
+
+        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = pref.edit();
+        edit.putBoolean("flagValue",flag);
+        edit.commit();
     }
 
 
