@@ -122,9 +122,9 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
         txtLat = (TextView) myview.findViewById(R.id.latlong);
         geoadd = (TextView) myview.findViewById(R.id.address);
 
-        mFirebaseDatabase=FirebaseDatabase.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebaseStorage=FirebaseStorage.getInstance();
-        mUserLcationDatabaseReference=mFirebaseDatabase.getReference().child("usercurrentlocation");
+       // mUserLcationDatabaseReference=mFirebaseDatabase.getReference().child("usercurrentlocation");
 
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = (ViewPager) myview.findViewById(R.id.container);
@@ -209,15 +209,17 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
             return null;
         }
     }
-
+//pulkit agy...kuch krio mt
 
     @Override
     public void onLocationChanged(Location location) {
         txtLat = (TextView) myview.findViewById(R.id.latlong);
         geoadd = (TextView) myview.findViewById(R.id.address);
         loc2=location;
+
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+       // mDatabase.child("users").child("usercurrentlocation").setValue(latitude);
         txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
 
         Geocoder geocoder;
@@ -267,7 +269,8 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
         float distance = loc1.distanceTo(loc2);
         if (distance >= 5000) {
            // mUserLcationDatabaseReference.push().setValue(loc2);
-            mDatabase.child("users").child(uid).child("usercurrentlocation").setValue(loc2);
+            mDatabase.child("users").child("usercurrentlocation").child("latitude").setValue(latitude);
+            mDatabase.child("users").child("usercurrentlocation").child("longitude").setValue(longitude);
             loc1=loc2;
             temp.setText(loc2+"");
             //push loc2 to firebase and update loc1 there
