@@ -87,10 +87,10 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout1_CHAT()).commit();
             //break;
         } else if (id == R.id.nav_events) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout2_EventsNearBy()).commit();
+           // getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout2_EventsNearBy()).commit();
             //break;
         } else if (id == R.id.nav_createevent) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout3_CreateEvents()).commit();
+            //getSupportFragmentManager().beginTransaction().replace(R.id.content_frame,new Layout3_CreateEvents()).commit();
             //break;
         } else if (id == R.id.nav_manage) {
 
