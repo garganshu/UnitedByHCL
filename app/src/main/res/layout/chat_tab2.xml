@@ -16,5 +16,16 @@
         android:text="tab2"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+    <TextView
+        android:id="@+id/texttemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="loc2"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="33dp"
+        android:layout_marginStart="33dp"
+        android:layout_marginBottom="133dp" />
 
 </RelativeLayout>

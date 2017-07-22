@@ -8,6 +8,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,12 +22,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -38,6 +41,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -46,6 +52,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static location.in.unitedbyhcl.SignUpPage.uid;
 
 /**
  * Created by AnshulGarg on 7/22/2017.
@@ -65,6 +72,12 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     protected boolean gps_enabled, network_enabled;
     Location loc1, loc2;
 
+    private static final String TAG = "MainActivity";
+    public String name;
+    public String id;
+
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mChatPhotosStorageReference;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -72,17 +85,15 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     public static final int RC_PHOTO_PICKER = 2;
     public static final String ANONYMOUS = "anonymous";
     private String mUsername;
-
+    private TextView temp;
     private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mMessagesDatabaseReference;
+    private DatabaseReference mUserLcationDatabaseReference;
     private ChildEventListener mChildEventListener;
     private FirebaseAuth mFirebasAuUth;
     private DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Nullable
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,16 +122,20 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
         txtLat = (TextView) myview.findViewById(R.id.latlong);
         geoadd = (TextView) myview.findViewById(R.id.address);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mFirebaseStorage=FirebaseStorage.getInstance();
+       // mUserLcationDatabaseReference=mFirebaseDatabase.getReference().child("usercurrentlocation");
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = (ViewPager) myview.findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+        temp= (TextView) myview.findViewById(R.id.texttemp);
+
         TabLayout tabLayout = (TabLayout) myview.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
         return myview;
     }
-
 
     public static class PlaceholderFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
@@ -130,6 +145,7 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
         }
 
         /**
+         *
          * Returns a new instance of this fragment for the given section
          * number.
          */
@@ -193,15 +209,17 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
             return null;
         }
     }
-
+//pulkit agy...kuch krio mt
 
     @Override
     public void onLocationChanged(Location location) {
         txtLat = (TextView) myview.findViewById(R.id.latlong);
         geoadd = (TextView) myview.findViewById(R.id.address);
+        loc2=location;
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+       // mDatabase.child("users").child("usercurrentlocation").setValue(latitude);
         txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
 
         Geocoder geocoder;
@@ -250,6 +268,11 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     public void aboveTenkms() {
         float distance = loc1.distanceTo(loc2);
         if (distance >= 5000) {
+           // mUserLcationDatabaseReference.push().setValue(loc2);
+            mDatabase.child("users").child("usercurrentlocation").child("latitude").setValue(latitude);
+            mDatabase.child("users").child("usercurrentlocation").child("longitude").setValue(longitude);
+            loc1=loc2;
+            temp.setText(loc2+"");
             //push loc2 to firebase and update loc1 there
         } else {
             //no changes in the database
@@ -257,4 +280,6 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
 
 
     }
+
+
 }
