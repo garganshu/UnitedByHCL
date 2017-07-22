@@ -65,12 +65,13 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     protected LocationManager locationManager;
     protected LocationListener locationListener;
     protected Context context;
-    TextView txtLat, geoadd;
+    TextView txtLat, geoadd,geodistance;
     String lat;
     String provider;
-    Double latitude, longitude;
+    Double latitude, longitude,lat1 = -82.862751 ,lon1 = 135.0000;
+    float distance = 0;
     protected boolean gps_enabled, network_enabled;
-    Location loc1, loc2;
+
 
     private static final String TAG = "MainActivity";
     public String name;
@@ -121,6 +122,7 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
 
         txtLat = (TextView) myview.findViewById(R.id.latlong);
         geoadd = (TextView) myview.findViewById(R.id.address);
+        geodistance = (TextView) myview.findViewById(R.id.distance) ;
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebaseStorage=FirebaseStorage.getInstance();
@@ -215,7 +217,8 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     public void onLocationChanged(Location location) {
         txtLat = (TextView) myview.findViewById(R.id.latlong);
         geoadd = (TextView) myview.findViewById(R.id.address);
-        loc2=location;
+        geodistance = (TextView) myview.findViewById(R.id.distance);
+
 
         latitude = location.getLatitude();
         longitude = location.getLongitude();
@@ -235,7 +238,9 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
                 full_add[j] = addresses.get(0).getAddressLine(j);
             }
             geoadd.setText(Arrays.toString(full_add).replaceAll("\\[|\\]", ""));
-            //aboveTenkms();
+            aboveTenkms();
+            String str2 = Float.toString(distance);
+            geodistance.setText("Distance :"+str2);
 
 
         } catch (IOException e) {
@@ -266,19 +271,34 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
     //code to convert latitude and longitude into the distance..........
     //begins here.
     public void aboveTenkms() {
-        float distance = loc1.distanceTo(loc2);
-        if (distance >= 5000) {
+        distance = distFrom(lat1,lon1,latitude,longitude);
+
+        if (distance >= 5000.00) {
            // mUserLcationDatabaseReference.push().setValue(loc2);
             mDatabase.child("users").child("usercurrentlocation").child("latitude").setValue(latitude);
             mDatabase.child("users").child("usercurrentlocation").child("longitude").setValue(longitude);
-            loc1=loc2;
-            temp.setText(loc2+"");
+            lat1 = latitude;
+            lon1 = longitude;
+            //temp.setText(latitude+""+longitude+"");
+
             //push loc2 to firebase and update loc1 there
-        } else {
-            //no changes in the database
         }
 
 
+    }
+
+
+    public float distFrom(double lat1, double lng1, double lat2, double lng2) {
+        double earthRadius = 6371000; //meters
+        double dLat = Math.toRadians(lat2-lat1);
+        double dLng = Math.toRadians(lng2-lng1);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLng/2) * Math.sin(dLng/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        float dist = (float) (earthRadius * c);
+
+        return dist;
     }
 
 
