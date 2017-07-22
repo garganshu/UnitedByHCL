@@ -31,11 +31,6 @@ public class chat_tab1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.chat_tab1, container, false);
-        TextView t=rootView.findViewById(R.id.textView5);
-        Animation slide_down = AnimationUtils.loadAnimation(getContext(), R.anim.slidedown);
-// Start animation
-     t.startAnimation(slide_down);
-
         return rootView;
     }
 
