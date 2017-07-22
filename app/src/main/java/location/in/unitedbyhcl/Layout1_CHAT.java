@@ -1,10 +1,18 @@
 package location.in.unitedbyhcl;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -31,20 +39,38 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 /**
- * Created by Deepanshi on 7/20/2017.
+ * Created by AnshulGarg on 7/22/2017.
  */
 
-public class Layout1_CHAT extends Fragment {
+public class Layout1_CHAT extends Fragment implements LocationListener {
     View myview;
+
+
+    protected LocationManager locationManager;
+    protected LocationListener locationListener;
+    protected Context context;
+    TextView txtLat, geoadd;
+    String lat;
+    String provider;
+    Double latitude, longitude;
+    protected boolean gps_enabled, network_enabled;
+    Location loc1, loc2;
+
+
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    public  static final int RC_SIGN_IN=1;
-    public static final int RC_PHOTO_PICKER=2;
-    public  static final String ANONYMOUS = "anonymous";
+    public static final int RC_SIGN_IN = 1;
+    public static final int RC_PHOTO_PICKER = 2;
+    public static final String ANONYMOUS = "anonymous";
     private String mUsername;
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -53,10 +79,38 @@ public class Layout1_CHAT extends Fragment {
     private FirebaseAuth mFirebasAuUth;
     private DatabaseReference mDatabase;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
     @Nullable
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+
+
+    }
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myview = inflater.inflate(R.layout.chat_layout1, container, false);
+
+        txtLat = (TextView) myview.findViewById(R.id.latlong);
+        geoadd = (TextView) myview.findViewById(R.id.address);
+
         mSectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
         mViewPager = (ViewPager) myview.findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -66,11 +120,15 @@ public class Layout1_CHAT extends Fragment {
 
         return myview;
     }
+
+
     public static class PlaceholderFragment extends Fragment {
         private static final String ARG_SECTION_NUMBER = "section_number";
+        private View rootView;
 
         public PlaceholderFragment() {
         }
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -82,14 +140,14 @@ public class Layout1_CHAT extends Fragment {
             fragment.setArguments(args);
             return fragment;
         }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.chat_tab1, container, false);
+            rootView = inflater.inflate(R.layout.chat_tab1, container, false);
             return rootView;
         }
-        }
-
+    }
 
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -136,4 +194,67 @@ public class Layout1_CHAT extends Fragment {
         }
     }
 
+
+    @Override
+    public void onLocationChanged(Location location) {
+        txtLat = (TextView) myview.findViewById(R.id.latlong);
+        geoadd = (TextView) myview.findViewById(R.id.address);
+
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+
+        Geocoder geocoder;
+        List<Address> addresses;
+
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            int i = addresses.get(0).getMaxAddressLineIndex();
+            String full_add[] = new String[i];
+            for (int j = 0; j < i; j++) {
+                full_add[j] = addresses.get(0).getAddressLine(j);
+            }
+            geoadd.setText(Arrays.toString(full_add).replaceAll("\\[|\\]", ""));
+            //aboveTenkms();
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        Log.d("Latitude", "status");
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+        Log.d("Latitude", "enable");
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+        Log.d("Latitude", "disable");
+    }
+
+    //code to send latitude and longitude to firebase only if distance between current latitude and longitde
+    //and the old one fetched from database is more than 10kms....Loc1 to be fetched from db
+    //code to convert latitude and longitude into the distance..........
+    //begins here.
+    public void aboveTenkms() {
+        float distance = loc1.distanceTo(loc2);
+        if (distance >= 5000) {
+            //push loc2 to firebase and update loc1 there
+        } else {
+            //no changes in the database
+        }
+
+
+    }
 }
