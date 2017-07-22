@@ -25,7 +25,7 @@ import static android.os.Build.VERSION_CODES.N;
  *
  */
 
-public class Layout2_EventsNearBy extends Fragment {
+public class Layout2_EventsNearBy extends android.support.v4.app.Fragment {
     View myview;
     ArrayList<events> eventses = new ArrayList<>();
     EventAdapter eventAdapter= new EventAdapter();
