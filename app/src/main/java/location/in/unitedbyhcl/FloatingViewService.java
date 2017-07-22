@@ -69,7 +69,7 @@ public class FloatingViewService extends Service {
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FloatingViewService.this, "Playing the song.", Toast.LENGTH_LONG).show();
+                Toast.makeText(FloatingViewService.this, "Your answer is no", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -79,7 +79,7 @@ public class FloatingViewService extends Service {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FloatingViewService.this, "Playing next song.", Toast.LENGTH_LONG).show();
+                Toast.makeText(FloatingViewService.this, "You dont know answer to this question", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -89,7 +89,7 @@ public class FloatingViewService extends Service {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(FloatingViewService.this, "Playing previous song.", Toast.LENGTH_LONG).show();
+                Toast.makeText(FloatingViewService.this, "You clciked yes", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -156,6 +156,7 @@ public class FloatingViewService extends Service {
                                 //and expanded view will become visible.
                                 collapsedView.setVisibility(View.GONE);
                                 expandedView.setVisibility(View.VISIBLE);
+
                             }
                         }
                         return true;

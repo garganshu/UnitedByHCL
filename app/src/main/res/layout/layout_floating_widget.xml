@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/frameLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <!--Root container-->
         <RelativeLayout
@@ -52,35 +57,50 @@
                 android:id="@+id/expanded_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#F8BBD0"
-                android:visibility="gone"
+                android:background="@color/authui_colorAccent"
+                android:visibility="visible"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
                 <!--Album image for the song currently playing.-->
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:src="@drawable/logo"
                     tools:ignore="ContentDescription"/>
-
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:text="Hello Wanna share your wateva"
+                    />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
                 <!--Previous button-->
                 <ImageView
                     android:id="@+id/yes_button"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="50dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="20dp"
                     android:src="@drawable/yes1"
+                    android:layout_weight="1"
                     tools:ignore="ContentDescription" />
 
                 <!--Play button-->
                 <ImageView
                     android:id="@+id/no_btn"
-                    android:layout_width="50dp"
+                    android:layout_width="30dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
                     android:src="@drawable/no"
                     tools:ignore="ContentDescription"/>
 
@@ -88,36 +108,46 @@
                 <ImageView
                     android:id="@+id/idk_buttn"
                     android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/idk"
                     tools:ignore="ContentDescription"/>
+</LinearLayout>
 
-                <RelativeLayout
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
                     <ImageView
                         android:id="@+id/close_button"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_close"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Is there long traffic?"
-                        />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        app:srcCompat="@drawable/ic_close" />
+
                     <ImageView
                         android:id="@+id/open_button"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentBottom="true"
-                        android:src="@drawable/ic_open"/>
-                </RelativeLayout>
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_alignBottom="@+id/frameLayout"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+
+                        app:srcCompat="@drawable/ic_open" />
+                </LinearLayout>
             </LinearLayout>
+
         </RelativeLayout>
+
     </FrameLayout>
+
+
 
 </RelativeLayout>
