@@ -50,58 +50,7 @@ public class FloatingViewService extends Service {
         idk=(ImageView)mFloatingView.findViewById(R.id.idk_buttn);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
-        fetch_q();
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Send messages on click
-                Toast.makeText(FloatingViewService.this, "You clciked yes!!GREAT.", Toast.LENGTH_LONG).show();
-                i++;
-                if(i==3){
-                    yes.setVisibility(View.INVISIBLE);
-                    no.setVisibility(View.INVISIBLE);
-                    idk.setVisibility(View.INVISIBLE);
-                }
-                if(i==4)
-                {  i=1;}
-                fetch_q();
 
-            }
-        });
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Send messages on click
-                Toast.makeText(FloatingViewService.this, "NO!!Thanks for your opinion.", Toast.LENGTH_LONG).show();
-                i++;
-                if(i==3){
-                    yes.setVisibility(View.INVISIBLE);
-                    no.setVisibility(View.INVISIBLE);
-                    idk.setVisibility(View.INVISIBLE);
-                }
-                if(i==4)
-                {  i=1;}
-                fetch_q();
-
-            }
-        });
-        idk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: Send messages on click
-                Toast.makeText(FloatingViewService.this, "Don't know the ans!Its okay.", Toast.LENGTH_LONG).show();
-                i++;
-                if(i==3){
-                    yes.setVisibility(View.INVISIBLE);
-                    no.setVisibility(View.INVISIBLE);
-                    idk.setVisibility(View.INVISIBLE);
-                }
-                if(i==4)
-                {  i=1;}
-                fetch_q();
-
-            }
-        });
         //Add the view to the window.
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -201,7 +150,65 @@ public class FloatingViewService extends Service {
                                 collapsedView.setVisibility(View.GONE);
                                 expandedView.setVisibility(View.VISIBLE);
 
+                                t1.setVisibility(View.VISIBLE);
+                                yes.setVisibility(View.VISIBLE);
+                                no.setVisibility(View.VISIBLE);
+                                idk.setVisibility(View.VISIBLE);
+                                fetch_q();
+                                yes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // TODO: Send messages on click
+                                        Toast.makeText(FloatingViewService.this, "You clciked yes!!GREAT.", Toast.LENGTH_LONG).show();
+                                        i++;
+                                        if(i==3){
+                                            yes.setVisibility(View.INVISIBLE);
+                                            no.setVisibility(View.INVISIBLE);
+                                            idk.setVisibility(View.INVISIBLE);
+                                        }
+                                        if(i==4)
+                                        {  i=1;}
+                                        fetch_q();
+
+                                    }
+                                });
+                                no.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // TODO: Send messages on click
+                                        Toast.makeText(FloatingViewService.this, "NO!!Thanks for your opinion.", Toast.LENGTH_LONG).show();
+                                        i++;
+                                        if(i==3){
+                                            yes.setVisibility(View.INVISIBLE);
+                                            no.setVisibility(View.INVISIBLE);
+                                            idk.setVisibility(View.INVISIBLE);
+                                        }
+                                        if(i==4)
+                                        {  i=1;}
+                                        fetch_q();
+
+                                    }
+                                });
+                                idk.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        // TODO: Send messages on click
+                                        Toast.makeText(FloatingViewService.this, "Don't know the ans!Its okay.", Toast.LENGTH_LONG).show();
+                                        i++;
+                                        if(i==3){
+                                            yes.setVisibility(View.INVISIBLE);
+                                            no.setVisibility(View.INVISIBLE);
+                                            idk.setVisibility(View.INVISIBLE);
+                                        }
+                                        if(i==4)
+                                        {  i=1;}
+                                        fetch_q();
+
+                                    }
+                                });
+
                             }
+
                         }
                         return true;
                     case MotionEvent.ACTION_MOVE:

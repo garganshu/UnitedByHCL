@@ -53,7 +53,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static location.in.unitedbyhcl.SignUpPage.uid;
+//import static location.in.unitedbyhcl.SignUpPage.uid;
 
 /**
  * Created by AnshulGarg on 7/22/2017.
