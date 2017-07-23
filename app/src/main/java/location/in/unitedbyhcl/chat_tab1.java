@@ -1,6 +1,8 @@
 package location.in.unitedbyhcl;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,8 @@ import org.w3c.dom.Text;
 
 import static android.app.Activity.RESULT_OK;
 
+    Boolean flagDisp;
+
 
 public class chat_tab1 extends Fragment {
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
@@ -48,6 +52,7 @@ public class chat_tab1 extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSharedData();
 
     }
 
@@ -194,6 +199,15 @@ public void fetch_q(){
         public void onDataChange(DataSnapshot dataSnapshot) {
             question=(String)dataSnapshot.getValue();
             t1.setText(question);
+
+    //call this function anywhere to get flag value in this fragment
+
+    public void getSharedData(){
+        SharedPreferences pref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        flagDisp = pref.getBoolean("flagValue", false);
+
+
+    }
 
 
         }
