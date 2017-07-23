@@ -84,7 +84,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
                 <!--Previous button-->
-    <ImageButton
+    <ImageView
         android:id="@+id/yes_bttn"
         android:layout_width="30dp"
         android:layout_height="50dp"
@@ -95,7 +95,7 @@
         tools:ignore="ContentDescription" />
 
                 <!--No button-->
-                <ImageButton
+                <ImageView
                     android:id="@+id/no_btn"
                     android:layout_width="30dp"
                     android:layout_height="50dp"
@@ -106,7 +106,7 @@
                     tools:ignore="ContentDescription"/>
 
                 <!--Idk button-->
-                <ImageButton
+                <ImageView
                     android:id="@+id/idk_buttn"
                     android:layout_width="30dp"
                     android:layout_height="50dp"

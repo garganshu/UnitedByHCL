@@ -26,7 +26,7 @@ public class FloatingViewService extends Service {
     private WindowManager mWindowManager;
     private View mFloatingView;
     TextView t1;
-    ImageButton yes,no,idk;
+    ImageView yes,no,idk;
     private DatabaseReference mDatabase;
     static String question;
     static int i=1;
@@ -45,9 +45,9 @@ public class FloatingViewService extends Service {
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.layout_floating_widget, null);
 
         t1=(TextView)mFloatingView.findViewById(R.id.question1);
-        yes=(ImageButton)mFloatingView.findViewById(R.id.yes_bttn);
-        no=(ImageButton)mFloatingView.findViewById(R.id.no_btn);
-        idk=(ImageButton)mFloatingView.findViewById(R.id.idk_buttn);
+        yes=(ImageView) mFloatingView.findViewById(R.id.yes_bttn);
+        no=(ImageView)mFloatingView.findViewById(R.id.no_btn);
+        idk=(ImageView)mFloatingView.findViewById(R.id.idk_buttn);
 
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
         fetch_q();

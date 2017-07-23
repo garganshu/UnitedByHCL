@@ -76,13 +76,17 @@ public class chat_tab1 extends Fragment {
             startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
         } else {
             // initializeView();
-            rootView.findViewById(R.id.notify_me).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getActivity().startService(new Intent(getActivity(),FloatingViewService.class));
-                  //  getActivity().finish();
-                }
-            });
+//            rootView.findViewById(R.id.notify_me).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    getActivity().startService(new Intent(getActivity(),FloatingViewService.class));
+//                  //  getActivity().finish();
+//                }
+//            });
+            if(flagDisp)
+            {
+                getActivity().startService(new Intent(getActivity(),FloatingViewService.class));
+            }
         }
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
 
