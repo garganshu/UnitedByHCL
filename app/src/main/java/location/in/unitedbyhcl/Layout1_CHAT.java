@@ -53,7 +53,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static location.in.unitedbyhcl.SignUpPage.uid;
+//import static location.in.unitedbyhcl.SignUpPage.uid;
 
 /**
  * Created by AnshulGarg on 7/22/2017.
@@ -213,7 +213,7 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
             return null;
         }
     }
-//pulkit agy...kuch krio mt
+
 
     @Override
     public void onLocationChanged(Location location) {
@@ -282,8 +282,8 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
            // mUserLcationDatabaseReference.push().setValue(loc2);
             mDatabase.child("users").child("usercurrentlocation").child("latitude").setValue(latitude);
             mDatabase.child("users").child("usercurrentlocation").child("longitude").setValue(longitude);
-            lat1 = latitude;
-            lon1 = longitude;
+//            lat1 = latitude;
+//            lon1 = longitude;
             //temp.setText(latitude+""+longitude+"");
 
             //push loc2 to firebase and update loc1 there
