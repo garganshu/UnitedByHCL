@@ -225,7 +225,7 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
        // mDatabase.child("users").child("usercurrentlocation").setValue(latitude);
-        txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
+        //txtLat.setText("Latitude:" + location.getLatitude() + ", Longitude:" + location.getLongitude());
 
         Geocoder geocoder;
         List<Address> addresses;
@@ -239,10 +239,10 @@ public class Layout1_CHAT extends Fragment implements LocationListener {
             for (int j = 0; j < i; j++) {
                 full_add[j] = addresses.get(0).getAddressLine(j);
             }
-            geoadd.setText(Arrays.toString(full_add).replaceAll("\\[|\\]", ""));
+           // geoadd.setText(Arrays.toString(full_add).replaceAll("\\[|\\]", ""));
             aboveTenkms();
             String str2 = Float.toString(distance);
-            geodistance.setText("Distance :"+str2);
+           // geodistance.setText("Distance :"+str2);
             sharedata();
 
 

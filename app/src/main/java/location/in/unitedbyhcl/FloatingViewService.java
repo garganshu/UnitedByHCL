@@ -9,14 +9,27 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class FloatingViewService extends Service {
     private WindowManager mWindowManager;
     private View mFloatingView;
-
+    TextView t1;
+    ImageButton yes,no,idk;
+    private DatabaseReference mDatabase;
+    static String question;
+    static int i=1;
     public FloatingViewService() {
     }
 
@@ -31,6 +44,64 @@ public class FloatingViewService extends Service {
         //Inflate the floating view layout we created
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.layout_floating_widget, null);
 
+        t1=(TextView)mFloatingView.findViewById(R.id.question1);
+        yes=(ImageButton)mFloatingView.findViewById(R.id.yes_bttn);
+        no=(ImageButton)mFloatingView.findViewById(R.id.no_btn);
+        idk=(ImageButton)mFloatingView.findViewById(R.id.idk_buttn);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference("questions");
+        fetch_q();
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Send messages on click
+                Toast.makeText(FloatingViewService.this, "You clciked yes!!GREAT.", Toast.LENGTH_LONG).show();
+                i++;
+                if(i==3){
+                    yes.setVisibility(View.INVISIBLE);
+                    no.setVisibility(View.INVISIBLE);
+                    idk.setVisibility(View.INVISIBLE);
+                }
+                if(i==4)
+                {  i=1;}
+                fetch_q();
+
+            }
+        });
+        no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Send messages on click
+                Toast.makeText(FloatingViewService.this, "NO!!Thanks for your opinion.", Toast.LENGTH_LONG).show();
+                i++;
+                if(i==3){
+                    yes.setVisibility(View.INVISIBLE);
+                    no.setVisibility(View.INVISIBLE);
+                    idk.setVisibility(View.INVISIBLE);
+                }
+                if(i==4)
+                {  i=1;}
+                fetch_q();
+
+            }
+        });
+        idk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Send messages on click
+                Toast.makeText(FloatingViewService.this, "Don't know the ans!Its okay.", Toast.LENGTH_LONG).show();
+                i++;
+                if(i==3){
+                    yes.setVisibility(View.INVISIBLE);
+                    no.setVisibility(View.INVISIBLE);
+                    idk.setVisibility(View.INVISIBLE);
+                }
+                if(i==4)
+                {  i=1;}
+                fetch_q();
+
+            }
+        });
         //Add the view to the window.
         final WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -64,34 +135,7 @@ public class FloatingViewService extends Service {
         });
 
         //Set the view while floating view is expanded.
-        //Set the play button.
-        ImageView playButton = (ImageView) mFloatingView.findViewById(R.id.no_btn);
-        playButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FloatingViewService.this, "Your answer is no", Toast.LENGTH_LONG).show();
-            }
-        });
 
-
-        //Set the next button.
-        ImageView nextButton = (ImageView) mFloatingView.findViewById(R.id.idk_buttn);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FloatingViewService.this, "You dont know answer to this question", Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        //Set the pause button.
-        ImageView prevButton = (ImageView) mFloatingView.findViewById(R.id.yes_button);
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(FloatingViewService.this, "You clciked yes", Toast.LENGTH_LONG).show();
-            }
-        });
 
 
         //Set the close button
@@ -190,5 +234,20 @@ public class FloatingViewService extends Service {
     public void onDestroy() {
         super.onDestroy();
         if (mFloatingView != null) mWindowManager.removeView(mFloatingView);
+    }
+    public void fetch_q() {
+        String k = Integer.toString(i);
+        mDatabase.child("chathead").child(k).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                question = (String) dataSnapshot.getValue();
+                t1.setText(question);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 }

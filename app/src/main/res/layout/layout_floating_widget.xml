@@ -72,29 +72,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="#fff"
-                    android:text="Hello Wanna share your wateva"
-                    />
+
+                    <TextView
+                        android:id="@+id/question1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hello Wanna share your wateva"
+                        android:textColor="#fff" />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
                 <!--Previous button-->
-                <ImageView
-                    android:id="@+id/yes_button"
-                    android:layout_width="30dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:src="@drawable/yes1"
-                    android:layout_weight="1"
-                    tools:ignore="ContentDescription" />
+    <ImageButton
+        android:id="@+id/yes_bttn"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_weight="1"
+        android:src="@drawable/yes1"
+        tools:ignore="ContentDescription" />
 
-                <!--Play button-->
-                <ImageView
+                <!--No button-->
+                <ImageButton
                     android:id="@+id/no_btn"
                     android:layout_width="30dp"
                     android:layout_height="50dp"
@@ -104,8 +105,8 @@
                     android:src="@drawable/no"
                     tools:ignore="ContentDescription"/>
 
-                <!--Next button-->
-                <ImageView
+                <!--Idk button-->
+                <ImageButton
                     android:id="@+id/idk_buttn"
                     android:layout_width="30dp"
                     android:layout_height="50dp"

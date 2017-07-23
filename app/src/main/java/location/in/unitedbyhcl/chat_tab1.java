@@ -31,12 +31,12 @@ import org.w3c.dom.Text;
 
 import static android.app.Activity.RESULT_OK;
 
-    Boolean flagDisp;
+
 
 
 public class chat_tab1 extends Fragment {
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
-
+    Boolean flagDisp;
     TextView t1,t2,t3;
     ImageView img;
     Button b2,b3,b4;
@@ -85,35 +85,6 @@ public class chat_tab1 extends Fragment {
             });
         }
         mDatabase = FirebaseDatabase.getInstance().getReference("questions");
-        //String question=mDatabase.child("questions").child("mainapp").child("i").getValue
-//        mChildEventListener = new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-////                FriendlyMessage friendlyMessage = dataSnapshot.getValue(FriendlyMessage.class);
-////                mMessageAdapter.add(friendlyMessage);
-//
-//                question=(String)dataSnapshot.child("mainapp").child(k).getValue();
-//                t1.setText(question);
-//
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                String k=Integer.toString(i);
-//                question=(String)dataSnapshot.child("mainapp").child(k).getValue();
-//                t1.setText(question);
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {}
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {}
-//        };
-//        mDatabase.addChildEventListener(mChildEventListener)
 
         fetch_q();
         b2.setOnClickListener(new View.OnClickListener() {
@@ -192,14 +163,21 @@ public class chat_tab1 extends Fragment {
         });
         return rootView;
     }
-public void fetch_q(){
-    String k=Integer.toString(i);
+public void fetch_q() {
+    String k = Integer.toString(i);
     mDatabase.child("mainapp").child(k).addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
-            question=(String)dataSnapshot.getValue();
+            question = (String) dataSnapshot.getValue();
             t1.setText(question);
 
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+        }
+    });
+}
     //call this function anywhere to get flag value in this fragment
 
     public void getSharedData(){
@@ -210,12 +188,7 @@ public void fetch_q(){
     }
 
 
-        }
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-        }
-    });
-}
+
     private void initializeView() {
         getView().findViewById(R.id.notify_me).setOnClickListener(new View.OnClickListener() {
             @Override
