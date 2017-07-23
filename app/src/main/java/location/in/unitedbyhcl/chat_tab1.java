@@ -193,22 +193,27 @@ public void fetch_q() {
 
 
 
-    private void initializeView() {
-        getView().findViewById(R.id.notify_me).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().startService(new Intent(getActivity(),FloatingViewService.class));
-                getActivity().finish();
-            }
-        });
-    }
+//    private void initializeView() {
+//        getView().findViewById(R.id.notify_me).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getActivity().startService(new Intent(getActivity(),FloatingViewService.class));
+//                getActivity().finish();
+//            }
+//        });
+//    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
             //Check if the permission is granted or not.
             if (resultCode == RESULT_OK) {
-                initializeView();
+                //initializeView();
+                if(flagDisp)
+                {   getActivity().startService(new Intent(getActivity(),FloatingViewService.class));
+                    getActivity().finish();
+                }
+
             } else { //Permission is not available
                 Toast.makeText(getActivity(),
                         "Draw over other app permission not available. Closing the application",
