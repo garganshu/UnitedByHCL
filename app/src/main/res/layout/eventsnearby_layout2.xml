@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Nearby Events"
         android:textAlignment="center"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:textAppearance="@android:style/TextAppearance.Large"
         android:textSize="30sp"
         android:textStyle="bold" />
 
